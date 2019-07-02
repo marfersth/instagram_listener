@@ -1,0 +1,7 @@
+FactoryBot.define do
+  factory :rule do
+    user_id { 12345678 }
+    access_token { 'EAAUiZCczYw5wBAGuok0kUz9IHlLZAxG' }
+    campaign_id { 1 }
+  end
+end

@@ -22,6 +22,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'mongoid', '~> 7.0.2'
 gem 'rails_admin', '~> 1.4.2'
 gem 'sidekiq', '~> 5.2.5'
+gem 'jbuilder', '~> 2.9.1'
+gem 'sidekiq-scheduler', '~> 3.0.0'
+gem 'faraday', '~> 0.15.4'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -38,9 +41,14 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-group :test do
-  gem 'rspec-mocks'
-  gem 'rspec-rails'
+group :development, :test do
+  gem 'rspec-mocks', '~> 3.8.1'
+  gem 'rspec-rails', '~> 3.8.2'
+  gem 'dotenv-rails', '~> 2.7.1'
+  gem 'factory_bot_rails', '~> 5.0.1'
+  gem 'mongoid-rspec', '~> 4.0.1'
+  gem 'vcr', '~> 4.0'
+  gem 'webmock', '~> 3.5.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
