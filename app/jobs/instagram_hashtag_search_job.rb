@@ -8,7 +8,7 @@ class InstagramHashtagSearchJob
     Rails.logger.info 'Started Job: InstagramHashtagSearch'
     rule = Rule.find(rule_id)
     matching_posts = HashtagSearch.matching_posts(rule)
-    filtered_posts = rule.filer_posts(matching_posts)
+    filtered_posts = rule.filer_posts(matching_posts['data'])
     filtered_posts.each do |post|
       SendMatchingPosts.execute(post.raw_data, post.rule.campaign_id)
     end

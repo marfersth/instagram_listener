@@ -17,35 +17,60 @@ class Rule
 
   validates :user_id, :access_token, :campaign_id, :active, presence: true
 
-  def filer_posts(posts)
+  def filer_posts(incoming_posts)
     filtered_posts = []
-    reduced_posts = posts['data'].map{|p| {id: p['id'], caption: p['caption']}}
-    reduced_posts.each do |post|
-      break if post['id'] == last_post_id # post already
-      next unless posts.where(instagram_id: post['id']).count.zero?
-      raw_data = posts['data'].select{|p| p['id'] == post['id']}
-      filtered_posts << Post.create!(rule_id: id, instagram_id: post['id'], caption: post['caption'], raw_data: raw_data)
-      update!(last_post_id: p['id'])
+    reduced_posts = incoming_posts.map{|p| {id: p['id'], caption: p['caption']}.with_indifferent_access}
+    reduced_posts.each do |reduced_post|
+      next unless posts.where(instagram_id: reduced_post['id']).count.zero?
+      raw_data = incoming_posts.select{|p| p['id'] == reduced_post['id']}.first
+      next if raw_data['caption'].blank? || !post_valid?(raw_data['caption'])
+      filtered_posts << posts.create!(rule_id: id, instagram_id: raw_data['id'], caption: raw_data['caption'], raw_data: raw_data)
+      update!(last_post_id: filtered_posts.last['id'])
     end
     filtered_posts
   end
 
-  def not_processed
-    # cuando la el job en sidekiq fallo muchas veces guardar el post como 'missing'
+  private
+
+  def post_valid?(post_caption)
+    hashtags_valid?(post_caption) && words_valid?(post_caption) && users_valid?(post_caption)
   end
 
+  def words_valid?(post_caption)
+    words_post = post_caption.downcase.scan(regex_specific(''))
+    validate_type_rule?(words_post, words)
+  end
 
-  def self.filter_post(posts, rule)
-    posts['data'].each do |post|
-      next unless post.key?('caption')
-      if new_interaction?(post)
-        interaction = FacetagramInteraction.new(campaign: campaign, stream: post)
-        interaction.save if post_valid?(post, rule)
-      end
+  def users_valid?(post_caption)
+    users_post = extract_specifics(post_caption, '@')
+    validate_type_rule?(users_post, users)
+  end
+
+  def hashtags_valid?(post_caption)
+    hashtags_post = extract_specifics(post_caption, '#')
+    validate_type_rule?(hashtags_post, hashtags)
+  end
+
+  def extract_specifics(string, character)
+    list_specific = string.downcase.scan(regex_specific(character)).flatten
+    remove_symbol(list_specific, character)
+  end
+
+  def remove_symbol(list_specific, character)
+    list_specific.map { |specific| specific.split(character)[1] }.compact
+  end
+
+  def regex_specific(character)
+    /#{character}[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ._-]+/
+  end
+
+  def validate_type_rule?(rule_post_array, rule_array)
+    return true if rule_array.size.zero?
+    rule_valid = []
+    rule_array = rule_array.map(&:downcase)
+    rule_array.each do |item|
+      rule_valid << item if rule_post_array.include?(item)
     end
-
-    return unless next_iteration?(posts)
-    posts = resource_media(posts['paging']['next'])
-    filter_post(posts, rule)
+    rule_valid == rule_array
   end
 end
