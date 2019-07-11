@@ -3,7 +3,7 @@ require 'rails_helper'
 describe RulesController, type: :request do
 
   let(:params) {
-    { top_media_active: true, user_id: 12345678, access_token: 'EAAUiZCczYw5wBAGuok0kUz9IHlLZAxG', campaign_id: 1,
+    { user_id: 12345678, access_token: 'EAAUiZCczYw5wBAGuok0kUz9IHlLZAxG', campaign_id: 1,
       hashtags: ['hashtag1', 'hashtag2'], users: ['user1', 'user2'], words: ['word1', 'word2'] }
   }
 

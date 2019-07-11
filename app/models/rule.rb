@@ -5,7 +5,6 @@ class Rule
   field :user_id, type: Integer
   field :access_token, type: String
   field :campaign_id, type: Integer
-  field :post_id, type: Integer
   field :active, type: Boolean, default: true
   field :hashtags, type: Array
   field :users, type: Array
@@ -13,9 +12,21 @@ class Rule
   field :last_post_id, type: Integer
 
   has_many :posts
-  has_many :missing_posts
 
   validates :user_id, :access_token, :campaign_id, :active, presence: true
+
+  rails_admin do
+    list do
+      field :user_id
+      field :access_token
+      field :campaign_id
+      field :active
+      field :hashtags
+      field :users
+      field :words
+      field :last_post_id
+    end
+  end
 
   def filer_posts(incoming_posts)
     filtered_posts = []

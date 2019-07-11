@@ -1,0 +1,8 @@
+---
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 25
+:queues:
+  - instagram_hashtag_search

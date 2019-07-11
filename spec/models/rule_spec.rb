@@ -9,7 +9,7 @@ describe Rule do
 
   it '#filer_posts' do
     filtered_posts = rule.filer_posts(posts)
-    expect(filtered_posts).to match_array([18002569231226927, 17845022812502879])
+    expect(filtered_posts.map(&:instagram_id)).to match_array([18002569231226927, 17845022812502879])
   end
 
   context '#words_valid?' do

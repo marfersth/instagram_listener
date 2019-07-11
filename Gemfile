@@ -20,11 +20,16 @@ gem 'puma', '~> 3.11'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'mongoid', '~> 7.0.2'
+gem 'kaminari-mongoid', '~> 1.0.1'
 gem 'rails_admin', '~> 1.4.2'
-gem 'sidekiq', '~> 5.2.5'
 gem 'jbuilder', '~> 2.9.1'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 gem 'faraday', '~> 0.15.4'
+
+
+gem 'sidekiq', '~> 5.2.5'
+gem 'sidekiq-cron', '~> 1.1.0'
+gem 'sidekiq-unique-jobs', '~> 6.0.13'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

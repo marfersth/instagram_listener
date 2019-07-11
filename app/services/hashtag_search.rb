@@ -5,8 +5,8 @@ class HashtagSearch
 
   def self.matching_posts(rule_id)
     rule = Rule.find(rule_id)
-    hashtag_response = hashtag_search(rule)
-    hashtag_id = hashtag_response['data'].first['id']
+    hashtag_response = hashtag_search(rule).with_indifferent_access
+    hashtag_id = hashtag_response['data'].try(:first)['id']
     hashtag_posts = hashtag_posts(hashtag_id, rule)
     hashtag_posts
   end
@@ -21,7 +21,7 @@ class HashtagSearch
   def self.hashtag_posts(hashtag_id, rule)
     url = "#{INSTAGRAM_ENDPOINT}/#{hashtag_id}/recent_media"
     posts = resource_media("#{url}?user_id=#{rule.user_id}&fields=#{FIELDS}&limit=#{LIMIT_PAGE}", rule.access_token)
-    reduced_posts = posts['data'].map{|p| {id: p['id'], caption: p['caption']}}
+    reduced_posts = posts['data'].map{|p| {id: p['id'], caption: p['caption']}.with_indifferent_access}
     reduced_posts
     # Si es la primer request entonces guardar el id del post a nivel de la rule (y no hacer nada)
     # Luego (30 minutos despues) hacer la proxima request de posts hasta encontrar el post_id guardado en la rule (ultimo post procesado)

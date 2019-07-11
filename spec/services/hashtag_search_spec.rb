@@ -13,14 +13,14 @@ describe HashtagSearch do
     hastag_id = VCR.use_cassette('hashtag_search') do
       HashtagSearch.hashtag_search(rule)
     end
-    expect(hastag_id[:data][:id]).not_to be_nil # {"data"=>[{"id"=>"17841593698074073"}]}
+    expect(hastag_id[:data].first[:id]).not_to be_nil # {"data"=>[{"id"=>"17841593698074073"}]}
   end
 
   it '#hashtag_posts' do
     posts = VCR.use_cassette('hashtag_posts') do
       HashtagSearch.hashtag_posts('17841593698074073',rule)
     end
-    expect(posts.first.keys).to eql([:id, :caption]) #[{id: '', caption: ''}]
+    expect(posts.first.keys).to eql(['id', 'caption']) #[{id: '', caption: ''}]
   end
 
   it '#matching_posts' do
