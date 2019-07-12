@@ -19,6 +19,7 @@ gem 'puma', '~> 3.11'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'mongo', '2.8.0'
 gem 'mongoid', '~> 7.0.2'
 gem 'kaminari-mongoid', '~> 1.0.1'
 gem 'rails_admin', '~> 1.4.2'
