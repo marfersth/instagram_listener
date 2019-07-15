@@ -7,6 +7,11 @@ describe Rule do
   end
   let(:rule){ create :rule, hashtags: ['coke','cocacola'], words: ['city'], users: ['user1']}
 
+  it 'uniqueness flimper_back_rule_id' do
+    rule
+    expect{ create :rule, flimper_back_rule_id: rule.flimper_back_rule_id }.to raise_error(Mongoid::Errors::Validations)
+  end
+
   it '#filer_posts' do
     filtered_posts = rule.filer_posts(posts)
     expect(filtered_posts.map(&:instagram_id)).to match_array([18002569231226927, 17845022812502879])

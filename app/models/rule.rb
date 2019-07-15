@@ -10,10 +10,12 @@ class Rule
   field :users, type: Array
   field :words, type: Array
   field :last_post_id, type: Integer
+  field :flimper_back_rule_id, type: Integer
 
   has_many :posts
 
-  validates :user_id, :access_token, :campaign_id, :active, presence: true
+  validates :user_id, :access_token, :campaign_id, :active, :flimper_back_rule_id, presence: true
+  validates :flimper_back_rule_id, uniqueness: true
 
   rails_admin do
     list do
