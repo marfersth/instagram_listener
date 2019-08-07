@@ -248,6 +248,8 @@ GEM
     sidekiq-cron (1.1.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
+    sidekiq-failures (1.0.0)
+      sidekiq (>= 4.0.0)
     sidekiq-scheduler (3.0.0)
       redis (>= 3, < 5)
       rufus-scheduler (~> 3.2)
@@ -305,6 +307,7 @@ DEPENDENCIES
   rspec-rails (~> 3.8.2)
   sidekiq (~> 5.2.5)
   sidekiq-cron (~> 1.1.0)
+  sidekiq-failures
   sidekiq-scheduler (~> 3.0.0)
   sidekiq-unique-jobs (~> 6.0.13)
   spring
