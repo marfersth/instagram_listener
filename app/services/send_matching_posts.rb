@@ -8,7 +8,7 @@ class SendMatchingPosts
       request.body = {
         campaign_id: campaign_id,
         data: raw_data
-      }
+      }.to_json
     end
     raise ThirdPartyApiError.new({url: PROCESS_ENDPOINT, message: response.body}, response.status) if response.status != 200
   end

@@ -26,7 +26,7 @@ gem 'rails_admin', '~> 1.4.2'
 gem 'jbuilder', '~> 2.9.1'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 gem 'faraday', '~> 0.15.4'
-
+gem 'sentry-raven'
 
 gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
