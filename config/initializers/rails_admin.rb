@@ -1,4 +1,17 @@
 RailsAdmin.config do |config|
+  config.authorize_with do
+    authenticate_or_request_with_http_basic('Use admin credentials to login') do |email, password|
+      jwt_token = Jwts::Issuers::ForUsers.new(email: email, password: password).issue!
+      next unless jwt_token
+
+      permission_checker = Permissions::Checkers::ForUsers.new(
+        jwt_token: jwt_token, resource_code: 'IZZY_API_ADMIN_PANEL', level: 'ADMIN'
+      )
+
+      permission_checker.can_perform_action?
+    end
+  end
+
 
   ### Popular gems integration
 
