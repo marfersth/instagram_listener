@@ -32,6 +32,7 @@ gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
 gem 'sidekiq-unique-jobs', '~> 6.0.13'
 gem 'sidekiq-failures'
+gem 'flimper_poncho'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

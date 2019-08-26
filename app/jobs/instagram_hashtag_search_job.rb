@@ -11,7 +11,7 @@ class InstagramHashtagSearchJob
     filtered_posts = rule.filer_posts(matching_posts)
     filtered_posts.each do |post|
       begin
-        SendMatchingPosts.execute(post.raw_data, post.rule.campaign_id)
+        SendMatchingPosts.execute(post.id, post.raw_data, post.rule.campaign_id)
       rescue Exception => e
         post.update!(missing: true)
       end
