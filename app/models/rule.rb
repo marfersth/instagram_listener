@@ -37,7 +37,8 @@ class Rule
       next unless posts.where(instagram_id: reduced_post['id']).count.zero?
       raw_data = incoming_posts.select{|p| p['id'] == reduced_post['id']}.first
       next if raw_data['caption'].blank? || !post_valid?(raw_data['caption'])
-      filtered_posts << posts.create!(rule_id: id, instagram_id: raw_data['id'], caption: raw_data['caption'], raw_data: raw_data)
+      filtered_posts << posts.create!(rule_id: id, instagram_id: raw_data['id'],
+                                      caption: raw_data['caption'], raw_data: raw_data)
       update!(last_post_id: filtered_posts.last['id'])
     end
     filtered_posts

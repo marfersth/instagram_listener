@@ -12,6 +12,10 @@ require 'action_cable/engine'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+Raven.configure do |config|
+  config.dsn = 'https://516662190b884a1db5b25fc26c488054:9217f81be5234489b19a009e1ba55e92@sentry.io/1511845'
+end
+
 module InstagramListener
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
@@ -34,5 +38,8 @@ module InstagramListener
     config.generators do |generator|
       generator.orm :mongoid
     end
+
+    # Sentry
+    config.filter_parameters << :password
   end
 end

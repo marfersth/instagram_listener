@@ -26,12 +26,13 @@ gem 'rails_admin', '~> 1.4.2'
 gem 'jbuilder', '~> 2.9.1'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 gem 'faraday', '~> 0.15.4'
-
+gem 'sentry-raven'
 
 gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
 gem 'sidekiq-unique-jobs', '~> 6.0.13'
 gem 'sidekiq-failures'
+gem 'flimper_poncho'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
