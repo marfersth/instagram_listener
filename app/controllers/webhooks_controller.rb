@@ -10,6 +10,6 @@ class WebhooksController < ApplicationController
   end
 
   def event
-    
+    puts params['webhook']
   end
 end
