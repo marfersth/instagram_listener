@@ -1,7 +1,7 @@
 class SendMatchingPosts
   PROCESS_ENDPOINT = ENV['PROCESS_ENDPOINT']
 
-  def self.execute(post_id ,raw_data, campaign_id)
+  def self.execute(post_id, raw_data, campaign_id)
     hook_response = Faraday.new.post do |request|
       request.url PROCESS_ENDPOINT
       request.headers['Content-Type'] = 'application/json'
@@ -12,16 +12,16 @@ class SendMatchingPosts
       }.to_json
     end
 
-    raise ThirdPartyApiError.new({url: PROCESS_ENDPOINT, message: hook_response},
-      hook_response.status).show_error unless hook_response.success?
+    unless hook_response.success?
+      raise ThirdPartyApiError.new({ url: PROCESS_ENDPOINT, message: hook_response },
+                                   hook_response.status).show_error
+    end
 
     hook_response
-
-    rescue StandardError => error
-      Raven.capture_exception({error: error, post_ID: post_id})
-      error
+  rescue StandardError => e
+    Raven.capture_exception(error: e, post_ID: post_id)
+    e
   end
-
 
   def self.izzy_api_jwt_token
     Jwts::Issuers::ForApiClients.new(name: 'IZZY_API_BACKEND',

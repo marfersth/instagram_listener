@@ -10,11 +10,9 @@ class InstagramHashtagSearchJob
     matching_posts = HashtagSearch.matching_posts(rule)
     filtered_posts = rule.filer_posts(matching_posts)
     filtered_posts.each do |post|
-      begin
-        SendMatchingPosts.execute(post.id, post.raw_data, post.rule.campaign_id)
-      rescue Exception => e
-        post.update!(missing: true)
-      end
+      SendMatchingPosts.execute(post.id, post.raw_data, post.rule.campaign_id)
+    rescue StandardError
+      post.update!(missing: true)
     end
     Rails.logger.info 'Ended Job: InstagramHashtagSearch'
   end

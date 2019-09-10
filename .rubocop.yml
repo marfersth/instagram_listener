@@ -1,0 +1,67 @@
+require: rubocop-rails
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
+
+AllCops:
+  Exclude:
+    - spec/support/spec_helper.rb
+    - spec/rails_helper.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - db/schema.rb
+    - db/seeds.rb
+    - db/migrations/*.rb
+    - spec/**/*.rb
+    - config/environments/production.rb
+
+Rails/FindBy:
+  Exclude:
+    - lib/*
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/AbcSize:
+  Max: 30
+
+Metrics/MethodLength:
+  Max: 30
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+HasAndBelongsToMany:
+  Enabled: false
+
+Style/UnneededInterpolation:
+  Enabled: false
+
+Lint/UriEscapeUnescape:
+  Description: >-
+                 `URI.escape` method is obsolete and should not be used. Instead, use
+                 `CGI.escape`, `URI.encode_www_form` or `URI.encode_www_form_component`
+                 depending on your specific use case.
+                 Also `URI.unescape` method is obsolete and should not be used. Instead, use
+                 `CGI.unescape`, `URI.decode_www_form` or `URI.decode_www_form_component`
+                 depending on your specific use case.
+  Enabled: false
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
+
+Style/MixinUsage:
+  Exclude:
+    - spec/**/*.rb
+
+Metrics/ModuleLength:
+  Exclude:
+    - "**/*_spec.rb"
+
+Documentation:
+  Enabled: false

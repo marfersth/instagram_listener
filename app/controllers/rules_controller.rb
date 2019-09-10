@@ -1,7 +1,7 @@
 class RulesController < ApplicationController
-
   def create
     return head :ok unless rule_params[:active]
+
     @rule = Rule.create!(rule_params)
     CronJobManager.new(@rule).create_jobs
     render 'show', formats: [:json]
@@ -27,8 +27,13 @@ class RulesController < ApplicationController
   private
 
   def rule_params
-    params.require(:rule).permit(
-        :user_id, :access_token, :campaign_id, :active, :flimper_back_rule_id, hashtags: [], users: [], words: []
-    )
+    params.require(:rule).permit(:user_id,
+                                 :access_token,
+                                 :campaign_id,
+                                 :active,
+                                 :flimper_back_rule_id,
+                                 hashtags: [],
+                                 users: [],
+                                 words: [])
   end
 end
