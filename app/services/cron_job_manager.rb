@@ -40,6 +40,7 @@ class CronJobManager
 
   def create_job(job_class, settings)
     return if enabled_job_already_exists?(job_class)
+
     Sidekiq::Cron::Job.create(name: job_name(job_class),
                               cron: settings['cron'], class: job_class.to_s,
                               args: rule.id, queue: settings['queue'])
@@ -83,6 +84,7 @@ class CronJobManager
 
   def id_from_argument(argument)
     return -1 unless argument.is_a?(Hash)
+
     argument['_aj_globalid'].split('/').last.to_i if argument.dig('_aj_globalid').present?
   end
 end

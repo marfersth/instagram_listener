@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe SubscriptionsController, type: :request do
-
   let(:params) {
     { event_type: 'comments_and_mentions', hook_url: 'http://some_callback_url.com' }
   }
