@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Run rubocop
 
-Things you may want to cover:
+Command line:
+```bash
+rubocop rubocop-rails app spec
+```
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![enter image description here](https://miro.medium.com/max/268/1*Im7yIV8NPelhZXaAzmKuUQ.png)
