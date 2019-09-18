@@ -23,7 +23,11 @@ class HashtagSearch
     posts = resource_media("#{url}?user_id=#{rule.user_id}&fields=#{FIELDS}&limit=#{LIMIT_PAGE}",
                            rule.access_token)
     reduced_posts = posts['data'].map do |p|
-      { id: p['id'], caption: p['caption'] }.with_indifferent_access
+      { id: p['id'],
+        caption: p['caption'],
+        media_type: p['media_type'],
+        media_url: p['media_url'],
+        permalink: p['permalink'] }.with_indifferent_access
     end
     reduced_posts
     # Si es la primer request entonces guardar el id del post a nivel de la rule (y no hacer nada)
