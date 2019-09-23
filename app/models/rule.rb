@@ -14,7 +14,7 @@ class Rule
 
   has_many :posts, dependent: :destroy
 
-  validates :user_id, :access_token, :campaign_id, :active, :flimper_back_rule_id, presence: true
+  validates :user_id, :access_token, :campaign_id, :flimper_back_rule_id, presence: true
   validates :flimper_back_rule_id, uniqueness: true
 
   rails_admin do
