@@ -21,14 +21,4 @@ class Post
     end
   end
 
-  rails_admin do
-    list do
-      field :instagram_id
-      field :caption
-      field :raw_data
-      field :missing
-    end
-  end
-
-
 end
