@@ -7,22 +7,23 @@ describe ActivitySubscriptionsController, type: :request do
   end
 
   let(:access_token) { 'some_access_token' }
-  let(:page_id) { 'some_page_id' }
+  let(:page_id) { '1' }
   let(:words) { ['some', 'words'] }
+  let(:campaign_id) { '1' }
 
   it 'create' do
     prev_count = ActivitySubscription.count
-    post('/activity_subscriptions', params: {activity_subscription: {access_token: access_token,
-                                                                     page_id: page_id, words: words,
-                                                                     users: []}}, headers: nil)
+    post('/activity_subscriptions', params: {activity_subscription: {access_token: access_token, page_id: page_id,
+                                                                     campaign_id: campaign_id, words: words}},
+         headers: nil)
     expect(response).to be_success
     expect(ActivitySubscription.count).to eql(prev_count + 1)
     as = ActivitySubscription.last
     expect(as.access_token).to eql(access_token)
     expect(as.page_id).to eql(page_id)
+    expect(as.campaign_id).to eql(campaign_id)
     expect(as.words).to eql(words)
     expect(as.hashtags).to eql([])
-    expect(as.users).to eql([])
   end
 
   it 'destroy' do
