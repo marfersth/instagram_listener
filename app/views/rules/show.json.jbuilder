@@ -1,3 +1,3 @@
 json.rule do
-  json.(@rule, :id, :active)
+  json.call(@rule, :id, :active)
 end

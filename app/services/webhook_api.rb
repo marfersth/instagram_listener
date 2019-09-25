@@ -1,11 +1,6 @@
 class WebhookApi
   INSTAGRAM_ENDPOINT = 'https://graph.facebook.com/v4.0'.freeze
-  SUBSCRIBED_FIELDS = 'feed, mention, name, picture, category, description, conversations, founded, company_overview, '\
-'mission, products, general_info, leadgen_fat, location, hours, parking, public_transit, page_about_story, '\
-'commerce_order, phone, email, website, ratings, attire, payment_options, culinary_team, general_manager, '\
-'price_range, awards, hometown, current_location, bio, affiliation, birthday, personal_info, personal_interests, '\
-'publisher_subscriptions, members, checkins, page_upcoming_change, page_change_proposal, merchant_review, '\
-'product_review, videos, live_videos, video_text_question_responses, registration'
+  SUBSCRIBED_FIELDS = 'feed'
 
   class << self
     def create_subscription(page_id, access_token)

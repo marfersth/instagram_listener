@@ -1,10 +1,16 @@
 require 'rails_helper'
 
 describe RulesController, type: :request do
-
   let(:params) {
-    { user_id: 12345678, access_token: 'EAAUiZCczYw5wBAGuok0kUz9IHlLZAxG', campaign_id: 1, flimper_back_rule_id: 1,
-      active: true, hashtags: ['hashtag1', 'hashtag2'], users: ['user1', 'user2'], words: ['word1', 'word2'] }
+    {
+      user_id: 12_345_678,
+      access_token: 'EAAUiZCczYw5wBAGuok0kUz9IHlLZAxG',
+      campaign_id: 1, flimper_back_rule_id: 1,
+      active: true,
+      hashtags: %w[hashtag1 hashtag],
+      users: %w[user1 user2],
+      words: %w[word1 word2]
+    }
   }
 
   context '#create' do

@@ -12,9 +12,9 @@ class Rule
   field :last_post_id, type: Integer
   field :flimper_back_rule_id, type: Integer
 
-  has_many :posts
+  has_many :posts, dependent: :destroy
 
-  validates :user_id, :access_token, :campaign_id, :active, :flimper_back_rule_id, presence: true
+  validates :user_id, :access_token, :campaign_id, :flimper_back_rule_id, presence: true
   validates :flimper_back_rule_id, uniqueness: true
 
   rails_admin do
@@ -32,11 +32,14 @@ class Rule
 
   def filer_posts(incoming_posts)
     filtered_posts = []
-    reduced_posts = incoming_posts.map{|p| {id: p['id'], caption: p['caption']}.with_indifferent_access}
+    reduced_posts = incoming_posts
+                    .map { |p| { id: p['id'], caption: p['caption'] }.with_indifferent_access }
     reduced_posts.each do |reduced_post|
       next unless posts.where(instagram_id: reduced_post['id']).count.zero?
-      raw_data = incoming_posts.select{|p| p['id'] == reduced_post['id']}.first
+
+      raw_data = incoming_posts.select { |p| p['id'] == reduced_post['id'] }.first
       next if raw_data['caption'].blank? || !post_valid?(raw_data['caption'])
+
       filtered_posts << posts.create!(rule_id: id, instagram_id: raw_data['id'],
                                       caption: raw_data['caption'], raw_data: raw_data)
       update!(last_post_id: filtered_posts.last['id'])
@@ -80,6 +83,7 @@ class Rule
 
   def validate_type_rule?(rule_post_array, rule_array)
     return true if rule_array.size.zero?
+
     rule_valid = []
     rule_array = rule_array.map(&:downcase)
     rule_array.each do |item|

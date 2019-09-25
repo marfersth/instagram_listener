@@ -20,5 +20,4 @@ class Post
       field :missing
     end
   end
-
 end

@@ -4,6 +4,7 @@ class ActivitySubscription
 
   field :access_token, type: String
   field :page_id, type: String
+  field :campaign_id, type: String
   field :instagram_business_account_id, type: String
   field :words, type: Array, default: []
   field :hashtags, type: Array, default: []
@@ -18,7 +19,8 @@ class ActivitySubscription
     list do
       field :access_token
       field :page_id
-      field instagram_account_id
+      field :campaign_id
+      field :instagram_business_account_id
       field :words
       field :hashtags
     end
