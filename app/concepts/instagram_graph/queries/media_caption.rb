@@ -8,8 +8,12 @@ module InstagramGraph
       string :access_token
 
       def execute
-        response = Faraday.get("https://graph.facebook.com/#{instagram_business_account_id}?fields=mentioned_media.media_id(#{media_id}){caption}&access_token=#{access_token}")
-        raise ThirdPartyApiError(code: response.status, message: JSON.parse(response.body)['error']['message']) unless response.status == 200
+        response = Faraday.get("https://graph.facebook.com/#{instagram_business_account_id}
+?fields=mentioned_media.media_id(#{media_id}){caption}&access_token=#{access_token}")
+        unless response.status == 200
+          raise ThirdPartyApiError(code: response.status,
+                                   message: JSON.parse(response.body)['error']['message'])
+        end
 
         response = JSON.parse(response.body)
         response['mentioned_media']['caption']

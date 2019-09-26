@@ -8,14 +8,16 @@ describe ActivitySubscriptionsController, type: :request do
 
   let(:access_token) { 'some_access_token' }
   let(:page_id) { '1' }
-  let(:words) { ['some', 'words'] }
+  let(:words) { %w[some words] }
   let(:campaign_id) { '1' }
 
   it 'create' do
     prev_count = ActivitySubscription.count
-    post('/activity_subscriptions', params: {activity_subscription: {access_token: access_token, page_id: page_id,
-                                                                     campaign_id: campaign_id, words: words}},
-         headers: nil)
+    post('/activity_subscriptions', params: { activity_subscription: { access_token: access_token,
+                                                                       page_id: page_id,
+                                                                       campaign_id: campaign_id,
+                                                                       words: words } },
+                                    headers: nil)
     expect(response).to be_success
     expect(ActivitySubscription.count).to eql(prev_count + 1)
     as = ActivitySubscription.last

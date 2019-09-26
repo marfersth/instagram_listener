@@ -3,13 +3,14 @@
 class WebhooksController < ApplicationController
   def validation
     insta_token = ENV.fetch('INSTAGRAM_VERIFY_TOKEN')
-    if insta_token == params['hub.verify_token']
-      return render json: params['hub.challenge']
-    else
-      head :forbidden
-    end
+    return render json: params['hub.challenge'] if insta_token == params['hub.verify_token']
+
+    head :forbidden
   end
 
+  # rubocop:disable Style/AsciiComments
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/AbcSize
   def event
     event_name = params['entry'].first['changes'].first['field']
     case event_name
@@ -19,7 +20,11 @@ class WebhooksController < ApplicationController
       comment_id = params['entry'].first['changes'].first['value']['comment_id']
       media_id = params['entry'].first['changes'].first['value']['media_id']
       instagram_business_account_id = params['entry'].first['id']
+<<<<<<< HEAD
       access_token = activity_subscriptions.first.access_token
+=======
+      access_token = '' # ver que hacer, de donde sacarlo y que hacer con el tema de la expiracion
+>>>>>>> 4a54caa25e1bf4a1e04ae7bb6cfff1955a3d9be6
 
       if comment_id.nil?
         text = InstagramGraph::Queries::MediaCaption.run!(instagram_business_account_id: instagram_business_account_id, media_id: media_id, access_token: access_token)
@@ -37,4 +42,7 @@ class WebhooksController < ApplicationController
     end
     head :ok
   end
+  # rubocop:enable Style/AsciiComments
+  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Metrics/AbcSize
 end
