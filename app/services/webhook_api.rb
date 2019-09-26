@@ -29,7 +29,6 @@ class WebhookApi
 
       JSON.parse(response.body)['instagram_business_account']['id']
     end
-<<<<<<< HEAD
     
     def exchange_short_for_long_lived_token(page_id, page_secret, access_token)
       url = "#{INSTAGRAM_ENDPOINT}/oauth/access_token"
@@ -39,8 +38,6 @@ class WebhookApi
       end
       JSON.parse(response.body)['access_token']
     end
-=======
     # rubocop:enable Style/GuardClause
->>>>>>> 4a54caa25e1bf4a1e04ae7bb6cfff1955a3d9be6
   end
 end
