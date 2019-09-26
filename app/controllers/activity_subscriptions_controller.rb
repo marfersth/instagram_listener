@@ -13,6 +13,7 @@ class ActivitySubscriptionsController < ApplicationController
   private
 
   def activity_subscription_params
-    params.require(:activity_subscription).permit(:access_token, :page_id, :campaign_id, words: [], hashtags: [])
+    params.require(:activity_subscription).permit(:access_token, :page_id, :campaign_id,
+                                                  words: [], hashtags: [])
   end
 end

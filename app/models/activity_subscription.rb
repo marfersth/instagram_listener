@@ -40,11 +40,12 @@ class ActivitySubscription
 
   def remove_facebook_subscription
     return if ActivitySubscription.where(page_id: page_id).count > 1
+
     WebhookApi.delete_subscription(page_id, access_token)
   end
 
   def remove_blank_elements_array
-    assign_attributes(words: words.try(:reject) {|e| e.empty? },
-                      hashtags: hashtags.try(:reject) {|e| e.empty? })
+    assign_attributes(words: words.try(:reject, &:empty?),
+                      hashtags: hashtags.try(:reject, &:empty?))
   end
 end
