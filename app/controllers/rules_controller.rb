@@ -20,8 +20,11 @@ class RulesController < ApplicationController
 
   def destroy
     @rule = Rule.find_by(flimper_back_rule_id: params[:id])
+    return render json: { error: "not found rule id: #{params[:id]}" }, status: :not_found if @rule.blank?
+
+    @rule.delete
     CronJobManager.new(@rule).delete_jobs
-    render status: :ok
+    render json: { info: 'deleted' }, status: :ok
   end
 
   private
