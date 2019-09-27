@@ -22,7 +22,7 @@ Rails/FindBy:
     - lib/*
 
 Metrics/LineLength:
-  Max: 100
+  Max: 120
 
 Metrics/AbcSize:
   Max: 30
