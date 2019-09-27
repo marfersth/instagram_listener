@@ -29,13 +29,14 @@ class WebhookApi
 
       JSON.parse(response.body)['instagram_business_account']['id']
     end
-    
+
     def exchange_short_for_long_lived_token(page_id, page_secret, access_token)
       url = "#{INSTAGRAM_ENDPOINT}/oauth/access_token"
       response = Faraday.get(url, grant_type: 'fb_exchange_token', client_id: page_id, client_secret: page_secret, access_token: access_token)
       unless response.success?
-        raise ThirdPartyApiError.new({url: url, message: response.body}, response.status)
+        raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status)
       end
+
       JSON.parse(response.body)['access_token']
     end
     # rubocop:enable Style/GuardClause

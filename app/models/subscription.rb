@@ -33,13 +33,4 @@ class Subscription
       field :active
     end
   end
-
-  def execute
-    subscription = Subscription
-                   .tweets_subscriptions
-                   .find_by(app_identifier: tweet.subscription_identifier)
-    Subscriptions::Operations::SendTweet.run!(tweet: tweet, subscription: subscription)
-  rescue StandardError => e
-    Raven.capture_exception("#{e} - Subscription: #{hook_url}") # add post_id to the error
-  end
 end
