@@ -9,7 +9,7 @@ module Subscriptios
       string :endpoint
 
       def execute
-        Faraday.post(endpoint, text: text, campaign_id: campaign_id, raw_data: raw_data)
+        Faraday.post(endpoint, text: text, campaign_id: campaign_id)
       end
     end
   end

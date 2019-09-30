@@ -11,9 +11,11 @@ class ActivitySubscription
 
   validates :access_token, presence: true
 
-  before_create :add_facebook_subscription, :exchange_long_lived_token
-  before_destroy :remove_facebook_subscription
-  before_save :remove_blank_elements_array
+  has_and_belongs_to_many :mentions
+
+  # before_create :add_facebook_subscription
+  # before_destroy :remove_facebook_subscription
+  # before_save :remove_blank_elements_array
 
   rails_admin do
     list do
