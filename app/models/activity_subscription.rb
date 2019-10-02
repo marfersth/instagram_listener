@@ -13,9 +13,9 @@ class ActivitySubscription
 
   has_and_belongs_to_many :mentions
 
-  # before_create :add_facebook_subscription
-  # before_destroy :remove_facebook_subscription
-  # before_save :remove_blank_elements_array
+  before_create :add_facebook_subscription
+  before_destroy :remove_facebook_subscription
+  before_save :remove_blank_elements_array
 
   rails_admin do
     list do
