@@ -11,6 +11,8 @@ class ActivitySubscription
 
   validates :access_token, presence: true
 
+  has_and_belongs_to_many :mentions
+
   before_create :add_facebook_subscription
   before_destroy :remove_facebook_subscription
   before_save :remove_blank_elements_array
@@ -47,5 +49,12 @@ class ActivitySubscription
   def remove_blank_elements_array
     assign_attributes(words: words.try(:reject, &:empty?),
                       hashtags: hashtags.try(:reject, &:empty?))
+  end
+
+  def exchange_long_lived_token
+    flimper_app_id = ENV.fetch('FLIMPER_APP_ID')
+    flimper_app_secret = ENV.fetch('FLIMPER_APP_SECRET')
+    long_life_token = WebhookApi.exchange_short_for_long_lived_token(flimper_app_id, flimper_app_secret, access_token)
+    @access_token = long_life_token
   end
 end

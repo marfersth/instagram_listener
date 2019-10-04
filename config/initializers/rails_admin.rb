@@ -12,7 +12,6 @@ RailsAdmin.config do |config|
     end
   end
 
-
   ### Popular gems integration
 
   ## == Devise ==

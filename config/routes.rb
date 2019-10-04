@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
-  
+
   get '/webhooks', to: 'webhooks#validation'
   post '/webhooks', to: 'webhooks#event'
 

@@ -8,36 +8,40 @@ class WebhooksController < ApplicationController
     head :forbidden
   end
 
-  # rubocop:disable Style/AsciiComments
-  # rubocop:disable Metrics/LineLength
-  # rubocop:disable Metrics/AbcSize
   def event
     event_name = params['entry'].first['changes'].first['field']
     case event_name
     when 'mentions'
-      comment_id = params['entry'].first['changes'].first['value']['comment_id']
-      media_id = params['entry'].first['changes'].first['value']['media_id']
+
       instagram_business_account_id = params['entry'].first['id']
-      access_token = '' # ver que hacer, de donde sacarlo y que hacer con el tema de la expiracion
-
-      if comment_id.nil?
-        text = InstagramGraph::Queries::MediaCaption.run!(instagram_business_account_id: instagram_business_account_id, media_id: media_id, access_token: access_token)
-      else
-        text = InstagramGraph::Queries::CommentText.run!(instagram_business_account_id: instagram_business_account_id, comment_id: comment_id, access_token: access_token)
-      end
-
       activity_subscriptions = ActivitySubscription.where(instagram_business_account_id: instagram_business_account_id)
-      activity_subscriptions.each do |activity_subscription|
-        # ver si las reglas aplican al texto y mandar a flimper back utlizando las suscription con event comments_and_mentions
-        if Webhooks::Operations::MatchText.run!(text, activity_subscription.words, activity_subscription.hashtags)
-          # en el body agregar el campaign_id asi flimper back puede ver a que campaña corresponde
-          # Ver tambien que campos es necesario mandar a flimper back (raw_data, campaign_id, texto)
+
+      unless activity_subscriptions.empty?
+        comment_id = params['entry'].first['changes'].first['value']['comment_id']
+        media_id = params['entry'].first['changes'].first['value']['media_id']
+        access_token = activity_subscriptions.first.access_token
+
+        if comment_id.nil?
+          text = InstagramGraph::Queries::MediaCaption.run!(instagram_business_account_id: instagram_business_account_id, media_id: media_id, access_token: access_token)
+        else
+          text = InstagramGraph::Queries::CommentText.run!(instagram_business_account_id: instagram_business_account_id, comment_id: comment_id, access_token: access_token)
+        end
+
+        subscriptions = Subscription.where(event: 'comments_and_mentions')
+
+        related_activity_subscriptions = []
+
+        activity_subscriptions.each do |activity_subscription|
+          if Webhooks::Operations::MatchText.run!(text_to_match: text, words: activity_subscription.words, hashtags: activity_subscription.hashtags)
+            subscriptions.each { |subscription| Subscriptions::Operations::SendCommentAndMention.run!(text: text, campaign_id: activity_subscription.campaign_id, endpoint: subscription.hook_url) }
+            related_activity_subscriptions << activity_subscription
+          end
         end
       end
+
+      Mention.create(raw_data: request.raw_post, field_type: 'mentions', activity_subscriptions: related_activity_subscriptions)
+
     end
     head :ok
   end
-  # rubocop:enable Style/AsciiComments
-  # rubocop:enable Metrics/LineLength
-  # rubocop:enable Metrics/AbcSize
 end
