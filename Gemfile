@@ -46,7 +46,7 @@ group :development, :test do
   # gem 'rubocop', '~> 0.71.0', require: false
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop-rails'
-  gem 'simplecov', '~> 0.17.1'
+  gem 'simplecov', '~> 0.17.1', require: false
   gem 'vcr', '~> 4.0'
   gem 'webmock', '~> 3.5.1'
 end

@@ -9,6 +9,9 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 require 'mongoid'
 require 'sidekiq/testing'
+require 'simplecov'
+
+SimpleCov.start
 
 Mongoid.load!('./config/mongoid.yml')
 
