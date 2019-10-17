@@ -38,9 +38,7 @@ class HashtagSearch
 
   def self.resource_media(url, access_token)
     response = Faraday.get(url, access_token: access_token)
-    if response.status != 200
-      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status)
-    end
+    raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status) if response.status != 200
 
     json_response = JSON.parse response.body
     json_response.with_indifferent_access
