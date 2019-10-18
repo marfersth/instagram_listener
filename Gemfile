@@ -22,6 +22,7 @@ gem 'sentry-raven'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 
 gem 'flimper_poncho'
+gem 'health_check', '~> 3.0'
 gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
 gem 'sidekiq-failures'
