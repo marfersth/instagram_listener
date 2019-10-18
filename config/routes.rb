@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :rules, only: %i[create update destroy]
   resources :subscriptions, only: %i[create]
-  resources :activity_subscriptions, only: %i[create destroy]
+  resources :activity_subscriptions, only: %i[create destroy], param: :campaign_id
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root to: redirect('/admin')

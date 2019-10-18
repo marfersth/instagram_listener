@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Subscriptios
+module Subscriptions
   module Operations
     class SendCommentAndMention < ActiveInteraction::Base
       string :text
