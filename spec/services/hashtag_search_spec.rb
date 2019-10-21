@@ -27,13 +27,13 @@ describe HashtagSearch do
     posts = VCR.use_cassette('hashtag_posts') do
       HashtagSearch.hashtag_posts(post_id, rule)
     end
-    expect(posts.first.keys).to eql(%w[id caption]) # [{id: '', caption: ''}]
+    expect(posts.first.keys).to eql(%w[id caption media_type media_url permalink])
   end
 
   it '#matching_posts' do
     expect(HashtagSearch).to receive(:hashtag_search)
       .with(rule)
-      .and_return(data: [{ id: '178415936980740' }])
+      .and_return(data: [{ id: '17841593698074073' }])
     expect(HashtagSearch).to receive(:hashtag_posts)
       .with(post_id, rule)
       .and_return([{ id: '123', caption: 'instagram caption' }])

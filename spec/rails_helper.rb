@@ -36,7 +36,7 @@ Sidekiq::Testing.fake!
 
 def stub_create_webhook_subscription
   allow(WebhookApi).to receive(:create_subscription)
-  allow(WebhookApi).to receive(:instagram_business_account).and_return('1')
+  allow(WebhookApi).to receive(:instagram_business_account).and_return('123')
 end
 
 def stub_delete_webhook_subscription
