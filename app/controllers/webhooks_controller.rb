@@ -16,7 +16,7 @@ class WebhooksController < ApplicationController
 
       instagram_business_account_id = params['entry'].first['id']
       activity_subscriptions = ActivitySubscription.where(instagram_business_account_id: instagram_business_account_id)
-
+      raw_data = params.reject!{ |p| %w(controller action).include? p }
       unless activity_subscriptions.empty?
         comment_id = params['entry'].first['changes'].first['value']['comment_id']
         media_id = params['entry'].first['changes'].first['value']['media_id']
@@ -40,10 +40,9 @@ class WebhooksController < ApplicationController
           words = activity_subscription.words
           hashtags = activity_subscription.words
           next unless Webhooks::Operations::MatchText.run!(text_to_match: text, words: words, hashtags: hashtags)
-
           subscriptions.each do |subscription|
             Subscriptions::Operations::SendCommentAndMention.run!(
-              text: text,
+              raw_data: raw_data.to_json,
               campaign_id: activity_subscription.campaign_id,
               endpoint: subscription.hook_url
             )
@@ -52,7 +51,7 @@ class WebhooksController < ApplicationController
         end
       end
 
-      Mention.create(raw_data: request.raw_post, field_type: 'mentions',
+      Mention.create(raw_data: raw_data.as_json, field_type: 'mentions',
                      activity_subscriptions: related_activity_subscriptions)
 
     end

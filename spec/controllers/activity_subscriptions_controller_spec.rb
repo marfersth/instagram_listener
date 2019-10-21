@@ -19,7 +19,7 @@ describe ActivitySubscriptionsController, type: :request do
       access_token: 'some_access_token',
       page_id: '1',
       campaign_id: '1',
-      instagram_business_account_id: '1'
+      instagram_business_account_id: '123'
     }
   end
 
