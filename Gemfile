@@ -18,23 +18,20 @@ gem 'kaminari-mongoid', '~> 1.0.1'
 gem 'mongo', '2.8.0'
 gem 'mongoid', '~> 7.0.2'
 gem 'rails_admin', '~> 1.4.2'
-gem 'sentry-raven'
+gem 'sentry-raven', '~> 2.11.0'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 
-gem 'flimper_poncho'
+gem 'flimper_poncho', '~> 0.1.4'
 gem 'health_check', '~> 3.0'
 gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
-gem 'sidekiq-failures'
+gem 'sidekiq-failures', '~> 1.0.0'
 gem 'sidekiq-unique-jobs', '~> 6.0.13'
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'httparty', '~> 0.17.1'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring', '~> 2.1.0'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
@@ -46,11 +43,10 @@ group :development, :test do
   gem 'rspec-json_expectations', '~> 2.2.0'
   gem 'rspec-mocks', '~> 3.8.1'
   gem 'rspec-rails', '~> 3.8.2'
-  gem 'rubocop-rails'
+  gem 'rubocop-rails', '~>2.3.2'
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'vcr', '~> 4.0'
   gem 'webmock', '~> 3.5.1'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

@@ -52,7 +52,7 @@ class WebhooksController < ApplicationController
         end
       end
 
-      Mention.create(raw_data: raw_data.as_json, field_type: 'mentions',
+      Mention.create(raw_data: raw_data.to_json, field_type: 'mentions',
                      activity_subscriptions: related_activity_subscriptions)
 
     end
