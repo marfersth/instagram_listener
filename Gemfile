@@ -39,18 +39,17 @@ group :development do
 end
 
 group :development, :test do
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails', '~> 2.7.1'
   gem 'factory_bot_rails', '~> 5.0.1'
   gem 'mongoid-rspec', '~> 4.0.1'
+  gem 'rspec-json_expectations', '~> 2.2.0'
   gem 'rspec-mocks', '~> 3.8.1'
   gem 'rspec-rails', '~> 3.8.2'
-  # gem 'rubocop', '~> 0.71.0', require: false
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'rubocop-rails'
   gem 'simplecov', '~> 0.17.1', require: false
   gem 'vcr', '~> 4.0'
   gem 'webmock', '~> 3.5.1'
-  gem 'rspec-json_expectations', '~> 2.2.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
