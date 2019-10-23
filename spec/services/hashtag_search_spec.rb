@@ -27,7 +27,7 @@ describe HashtagSearch do
     posts = VCR.use_cassette('hashtag_posts') do
       HashtagSearch.hashtag_posts(post_id, rule)
     end
-    expect(posts.first.keys).to eql(%w[id caption media_type media_url permalink])
+    expect(posts.first.keys).to eql(%w[id caption media_type media_url children permalink])
   end
 
   it '#matching_posts' do
