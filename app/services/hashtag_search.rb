@@ -1,7 +1,14 @@
 class HashtagSearch
   INSTAGRAM_ENDPOINT = 'https://graph.facebook.com/v3.2'.freeze
   LIMIT_PAGE = 50
-  FIELDS = %w[id media_type comments_count permalink media_url like_count caption].join(',')
+  FIELDS = %w[id
+              media_type
+              comments_count
+              permalink
+              media_url
+              like_count
+              caption
+              children{id,media_type,media_url,permalink}].join(',')
 
   def self.matching_posts(rule_id)
     rule = Rule.find(rule_id)
@@ -27,6 +34,7 @@ class HashtagSearch
         caption: p['caption'],
         media_type: p['media_type'],
         media_url: p['media_url'],
+        children: p['children'],
         permalink: p['permalink'] }.with_indifferent_access
     end
     reduced_posts
