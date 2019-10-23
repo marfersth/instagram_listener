@@ -8,7 +8,12 @@ module Subscriptions
       string :endpoint
 
       def execute
-        Faraday.post(endpoint, campaign_id: campaign_id, raw_data: raw_data)
+        HTTParty.post(endpoint,
+                      body: {
+                        campaign_id: campaign_id,
+                        raw_data: raw_data
+                      }.to_json,
+                      headers: { 'Content-Type' => 'application/json' })
       end
     end
   end
