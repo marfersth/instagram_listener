@@ -8,8 +8,9 @@ module Webhooks
       array :hashtags
 
       def execute
-        word_matches = words.map { |word| text_to_match.include? word }
-        hashtag_matches = hashtags.map { |hashtag| text_to_match.include?('#' + hashtag) }
+        downcased_text_to_match = text_to_match&.downcase
+        word_matches = words.map { |word| downcased_text_to_match.include? word.downcase }
+        hashtag_matches = hashtags.map { |hashtag| downcased_text_to_match.include?('#' + hashtag.downcase) }
         !word_matches.include?(false) && !hashtag_matches.include?(false)
       end
     end
