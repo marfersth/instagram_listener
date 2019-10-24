@@ -12,7 +12,7 @@ class WebhookApi
                                })
       return unless response.success? && JSON.parse(response.body)['success']
 
-      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status)
+      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
     end
 
     def delete_subscription(page_id, access_token)
@@ -23,7 +23,7 @@ class WebhookApi
     def instagram_business_account(page_id, access_token)
       url = "#{INSTAGRAM_ENDPOINT}/#{page_id}?fields=instagram_business_account"
       response = HTTParty.get(url, body: { access_token: access_token })
-      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status) unless response.success?
+      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code) unless response.success?
 
       JSON.parse(response.body)['instagram_business_account']['id']
     end
@@ -37,7 +37,7 @@ class WebhookApi
                                 client_secret: page_secret,
                                 access_token: access_token
                               })
-      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.status) unless response.success?
+      raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code) unless response.success?
 
       JSON.parse(response.body)['access_token']
     end
