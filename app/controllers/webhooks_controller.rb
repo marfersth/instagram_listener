@@ -46,6 +46,8 @@ class WebhooksController < ApplicationController
       SendMention.execute(activity_subscription, subscriptions, @raw_data)
       related_activity_subscriptions << activity_subscription
     end
+    return if related_activity_subscriptions.empty?
+
     Mention.create!(raw_data: @raw_data.to_json, field_type: @event_name,
                     activity_subscriptions: related_activity_subscriptions)
   end
