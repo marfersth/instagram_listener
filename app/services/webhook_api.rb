@@ -10,7 +10,7 @@ class WebhookApi
                                  subscribed_fields: SUBSCRIBED_FIELDS,
                                  access_token: access_token
                                })
-      return unless response.success? && JSON.parse(response.body)['success']
+      return unless response.success?
 
       raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code)
     end

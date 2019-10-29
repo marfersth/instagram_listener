@@ -10,9 +10,16 @@ class WebhooksController < ApplicationController
   end
 
   def event
+    return if @activity_subscriptions.empty?
+
     case @event_name
     when 'mentions'
-      handle_mentions
+      comment_id = @value.try(:[], 'comment_id')
+      media_id = @value.try(:[], 'media_id')
+      text = Webhooks::Operations::MentionedText.run!(comment_id: comment_id, media_id: media_id,
+                                                      instagram_business_account_id: @instagram_business_account_id,
+                                                      access_token: @activity_subscriptions.last.access_token)
+      handle_mentions(text)
     end
     head :ok
   end
@@ -22,28 +29,21 @@ class WebhooksController < ApplicationController
   def filter_params
     entry = params['entry']
     changes = entry&.first.try(:[], 'changes')
-    value = changes&.first.try(:[], 'value')
+    @value = changes&.first.try(:[], 'value')
     @event_name = changes&.first.try(:[], 'field')
     @instagram_business_account_id = entry&.first.try(:[], 'id')
-    @comment_id = value.try(:[], 'comment_id')
-    @media_id = value.try(:[], 'media_id')
     @raw_data = params.reject! { |p| %w[controller action].include? p }
+    @activity_subscriptions = ActivitySubscription.where(instagram_business_account_id: @instagram_business_account_id)
   end
 
-  def handle_mentions
-    activity_subscriptions = ActivitySubscription.where(instagram_business_account_id: @instagram_business_account_id)
-    return if activity_subscriptions.empty?
-
-    text = Webhooks::Operations::MentionedText.run!(comment_id: @comment_id, media_id: @media_id,
-                                                    instagram_business_account_id: @instagram_business_account_id,
-                                                    access_token: activity_subscriptions.last.access_token)
+  def handle_mentions(text)
     subscriptions = Subscription.where(event: 'comments_and_mentions')
     related_activity_subscriptions = []
-    activity_subscriptions.each do |activity_subscription|
+    @activity_subscriptions.each do |activity_subscription|
       matchs = text_matching?(activity_subscription, text)
       next unless matchs
 
-      SendMention.execute(activity_subscription, subscriptions)
+      SendMention.execute(activity_subscription, subscriptions, @raw_data)
       related_activity_subscriptions << activity_subscription
     end
     Mention.create!(raw_data: @raw_data.to_json, field_type: @event_name,
