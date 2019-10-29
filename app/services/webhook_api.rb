@@ -21,8 +21,8 @@ class WebhookApi
     end
 
     def instagram_business_account(page_id, access_token)
-      url = "#{INSTAGRAM_ENDPOINT}/#{page_id}?fields=instagram_business_account"
-      response = HTTParty.get(url, body: { access_token: access_token })
+      url = "#{INSTAGRAM_ENDPOINT}/#{page_id}?fields=instagram_business_account&access_token=#{access_token}"
+      response = HTTParty.get(url)
       raise ThirdPartyApiError.new({ url: url, message: response.body }, response.code) unless response.success?
 
       JSON.parse(response.body)['instagram_business_account']['id']
