@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe WebhooksController, type: :controller do
   let(:activity_subscription) { create :activity_subscription, words: ['texto'], hashtags: ['prueba'] }
+  let(:activity_subscription_2) { create :activity_subscription, words: ['de'], hashtags: ['prueba'] }
   let(:text) { 'Texto de #prueba' }
   let(:subscription) { create :subscription }
   let(:instagram_business_account_id) { '123' }
@@ -54,7 +55,7 @@ RSpec.describe WebhooksController, type: :controller do
   end
 
   def mock_send_comments_and_mentions
-    allow(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
+    allow(Subscriptions::Operations::SendCommentAndMention).to receive(:run!).and_return(OpenStruct.new(success?: true))
   end
 
   before(:each) do
@@ -89,7 +90,15 @@ RSpec.describe WebhooksController, type: :controller do
     it 'send mention to subscribed app' do
       expect(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
         .with(campaign_id: activity_subscription.campaign_id,
-              endpoint: subscription.hook_url, raw_data: anything)
+              endpoint: subscription.hook_url, raw_data: anything).and_return(OpenStruct.new(success?: true))
+      post :event, params: body_media
+    end
+
+    it 'send one mention to subscribed app per activity_subscription that matchs' do
+      activity_subscription
+      activity_subscription_2
+      expect(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
+        .twice.and_return(OpenStruct.new(success?: true))
       post :event, params: body_media
     end
 
@@ -98,7 +107,14 @@ RSpec.describe WebhooksController, type: :controller do
       expect { post :event, params: body_media }.to change(Mention, :count).by(1)
       new_mention = Mention.last
       expect(new_mention.field_type).to eql('mentions')
-      expect(new_mention.activity_subscription_ids).to eql([activity_subscription.id])
+      expect(new_mention.activity_subscription_id).to eql(activity_subscription.id)
+    end
+
+    it 'creates one mentions per activity_subscription that matchs' do
+      mock_send_comments_and_mentions
+      activity_subscription
+      activity_subscription_2
+      expect { post :event, params: body_media }.to change(Mention, :count).by(2)
     end
 
     it 'send correct params to text matcher' do

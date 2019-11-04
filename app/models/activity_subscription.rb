@@ -12,7 +12,7 @@ class ActivitySubscription
 
   validates :access_token, presence: true
 
-  has_and_belongs_to_many :mentions
+  has_many :mentions, dependent: :destroy
 
   before_create :add_facebook_subscription
   before_destroy :remove_facebook_subscription

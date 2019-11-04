@@ -5,7 +5,7 @@ class Mention
   field :raw_data, type: String
   field :field_type, type: String
 
-  has_and_belongs_to_many :activity_subscriptions
+  belongs_to :activity_subscription
 
   rails_admin do
     list do
