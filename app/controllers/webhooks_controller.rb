@@ -38,18 +38,14 @@ class WebhooksController < ApplicationController
 
   def handle_mentions(text)
     subscriptions = Subscription.where(event: 'comments_and_mentions')
-    related_activity_subscriptions = []
     @activity_subscriptions.each do |activity_subscription|
       matchs = text_matching?(activity_subscription, text)
       next unless matchs
 
-      SendMention.execute(activity_subscription, subscriptions, @raw_data)
-      related_activity_subscriptions << activity_subscription
+      mention = Mention.create!(raw_data: @raw_data.to_json, field_type: @event_name,
+                                activity_subscription: activity_subscription)
+      SendMention.execute(activity_subscription, subscriptions, mention)
     end
-    return if related_activity_subscriptions.empty?
-
-    Mention.create!(raw_data: @raw_data.to_json, field_type: @event_name,
-                    activity_subscriptions: related_activity_subscriptions)
   end
 
   def text_matching?(activity_subscription, text)
