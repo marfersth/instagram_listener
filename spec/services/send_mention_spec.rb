@@ -9,7 +9,7 @@ describe SendMention do
 
   it 'call SendCommentAndMention operation' do
     expect(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
-      .with(raw_data: mention.raw_data.to_json,
+      .with(raw_data: mention.raw_data,
             campaign_id: activity_subscription.campaign_id,
             endpoint: subscription.hook_url)
       .and_return(OpenStruct.new(success?: true))
