@@ -1,4 +1,4 @@
-bnamespace :missing_mentions do
+namespace :missing_mentions do
   desc 'Retry all missing mentions'
 
   task retry_all: :environment do
