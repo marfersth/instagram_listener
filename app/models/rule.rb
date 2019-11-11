@@ -54,7 +54,7 @@ class Rule
   end
 
   def words_valid?(post_caption)
-    words_post = post_caption.downcase.scan(regex_specific(''))
+    words_post = post_caption.downcase.gsub!(/\B[#]\S+\b/, '')
     validate_type_rule?(words_post, (words + users).reject(&:blank?))
   end
 
