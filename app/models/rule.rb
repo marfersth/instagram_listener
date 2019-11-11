@@ -50,17 +50,12 @@ class Rule
   private
 
   def post_valid?(post_caption)
-    hashtags_valid?(post_caption) && words_valid?(post_caption) && users_valid?(post_caption)
+    hashtags_valid?(post_caption) && words_valid?(post_caption)
   end
 
   def words_valid?(post_caption)
     words_post = post_caption.downcase.scan(regex_specific(''))
     validate_type_rule?(words_post, words)
-  end
-
-  def users_valid?(post_caption)
-    users_post = extract_specifics(post_caption, '@')
-    validate_type_rule?(users_post, users)
   end
 
   def hashtags_valid?(post_caption)

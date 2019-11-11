@@ -32,18 +32,6 @@ describe Rule do
     end
   end
 
-  context '#users_valid?' do
-    it 'valid post' do
-      post = posts.select { |p| p['id'] == '18002569231226927' }.first
-      response = rule.send(:users_valid?, post['caption'])
-      expect(response).to be_truthy
-    end
-    it 'invalid post' do
-      response = rule.send(:users_valid?, posts.first['caption'])
-      expect(response).to be_falsey
-    end
-  end
-
   context '#hashtags_valid?' do
     it 'valid post' do
       response = rule.send(:hashtags_valid?, posts.first['caption'])
