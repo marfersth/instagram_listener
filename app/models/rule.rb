@@ -55,7 +55,7 @@ class Rule
 
   def words_valid?(post_caption)
     words_post = post_caption.downcase.scan(regex_specific(''))
-    validate_type_rule?(words_post, words)
+    validate_type_rule?(words_post, (words + users).reject(&:blank?))
   end
 
   def hashtags_valid?(post_caption)
