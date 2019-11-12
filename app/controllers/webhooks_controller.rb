@@ -18,7 +18,7 @@ class WebhooksController < ApplicationController
       media_id = @value.try(:[], 'media_id')
       text = Webhooks::Operations::MentionedText.run!(comment_id: comment_id, media_id: media_id,
                                                       instagram_business_account_id: @instagram_business_account_id,
-                                                      access_token: @activity_subscriptions.last.access_token)
+                                                      access_token: @access_token)
       handle_mentions(text)
     end
     head :ok
@@ -32,8 +32,8 @@ class WebhooksController < ApplicationController
     @value = changes&.first.try(:[], 'value')
     @event_name = changes&.first.try(:[], 'field')
     @instagram_business_account_id = entry&.first.try(:[], 'id')
-    @raw_data = params.reject! { |p| %w[controller action].include? p }
     @activity_subscriptions = ActivitySubscription.where(instagram_business_account_id: @instagram_business_account_id)
+    @access_token = @activity_subscriptions.last.access_token
   end
 
   def handle_mentions(text)
@@ -42,8 +42,10 @@ class WebhooksController < ApplicationController
       matchs = text_matching?(activity_subscription, text)
       next unless matchs
 
-      mention = Mention.create!(raw_data: @raw_data.to_json, field_type: @event_name,
-                                activity_subscription: activity_subscription)
+      mention_data = params.reject! { |p| %w[controller action].include? p }
+      mention = Mentions::Operations::Create.run!(access_token: @access_token, mention_data: mention_data.to_json,
+                                                  activity_subscription: activity_subscription, field_type: @event_name,
+                                                  text: text)
       SendMention.execute(activity_subscription, subscriptions, mention)
     end
   end

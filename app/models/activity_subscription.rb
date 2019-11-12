@@ -20,11 +20,8 @@ class ActivitySubscription
 
   rails_admin do
     list do
-      field :access_token
-      field :page_id
       field :campaign_id
       field :rule_id
-      field :instagram_business_account_id
       field :words
       field :hashtags
     end

@@ -58,8 +58,21 @@ RSpec.describe WebhooksController, type: :controller do
     allow(Subscriptions::Operations::SendCommentAndMention).to receive(:run!).and_return(OpenStruct.new(success?: true))
   end
 
+  def mock_instagram_media
+    allow(InstagramGraph::Queries::IgMedia).to receive(:run!).and_return(
+      id: '18044467927200524',
+      media_type: 'IMAGE',
+      comments_count: 0,
+      permalink: 'https://permalink',
+      media_url: 'https://media_url',
+      children: nil,
+      caption: 'media caption text'
+    )
+  end
+
   before(:each) do
     stub_create_webhook_subscription
+    mock_instagram_media
     activity_subscription
   end
 
@@ -67,6 +80,7 @@ RSpec.describe WebhooksController, type: :controller do
     expect(InstagramGraph::Queries::MediaCaption).to receive(:run!)
       .with(instagram_business_account_id: instagram_business_account_id, media_id: media_id,
             access_token: activity_subscription.access_token).and_return(text)
+
     post :event, params: body_media
     expect(response).to be_success
   end
@@ -108,6 +122,11 @@ RSpec.describe WebhooksController, type: :controller do
       new_mention = Mention.last
       expect(new_mention.field_type).to eql('mentions')
       expect(new_mention.activity_subscription_id).to eql(activity_subscription.id)
+      expect(JSON.parse(new_mention.raw_data).keys).to contain_exactly('id', 'media_type', 'comments_count',
+                                                                       'permalink', 'media_url',
+                                                                       'children', 'caption', 'media_id',
+                                                                       'instagram_business_account_id', 'comment_id',
+                                                                       'comment_text')
     end
 
     it 'creates one mentions per activity_subscription that matchs' do

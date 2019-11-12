@@ -1,0 +1,67 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/18044467927200524?access_token=EAAUiZCczYw5wBAAZAhUfGUDNH44kbKXaWkh7ajlqe6GZBOuhVHVKVjY0emSXry0nlxAfTMrdedEz3HZAmEmAVZA7SrOA1k0MhVEZBXs7WoJ9aze6oohLChs82New2tYbFfhyGTjvLNWZAvrLDHHUeE5kqVqdIoUztMCg3MEUq9z6QZDZD&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D&limit=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - '"1a4decb97a3ebb522ef82bddcc8164783d9f1415"'
+      X-Business-Use-Case-Usage:
+      - '{"17841408163154441":[{"type":"instagram","call_count":1,"total_cputime":1,"total_time":1,"estimated_time_to_regain_access":0}]}'
+      Content-Type:
+      - application/json; charset=UTF-8
+      Facebook-Api-Version:
+      - v3.3
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '1001417202'
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      X-Fb-Trace-Id:
+      - AEKdahMb8ji
+      X-Fb-Request-Id:
+      - Ak3QXMFhg6OTZdUE3Yu7lhl
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Debug:
+      - HGvmmCnggB1iyOIK9twLGJSX05ivqUyaeg6/Aixvsv9LbPK5oAZXop6SmVIj2qSZyvenAGgPAKXdSMMXWVJ73Q==
+      Date:
+      - Tue, 12 Nov 2019 14:41:14 GMT
+      X-Fb-Trip-Id:
+      - '512678718'
+      Alt-Svc:
+      - h3-23=":443"; ma=3600
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '475'
+    body:
+      encoding: ASCII-8BIT
+      string: '{"id":"18044467927200524","media_type":"IMAGE","comments":{"data":[{"timestamp":"2019-11-12T14:40:49+0000","text":"Comentario
+        2","id":"17874113710493790"},{"timestamp":"2019-11-12T14:40:45+0000","text":"Comentario
+        1","id":"17874698611489877"}]},"comments_count":2,"permalink":"https:\/\/www.instagram.com\/p\/B4vTMwPheEo\/","media_url":"https:\/\/scontent.xx.fbcdn.net\/v\/t51.2885-15\/72781811_416847495675882_9034161583027061653_n.jpg?_nc_cat=105&_nc_oc=AQkyILB5bFqdBESwqBRtrUMP7UIvQMYIitGTsyMc6wQ0_8InTExjtgZYfberOlGRaWU&_nc_ht=scontent.xx&oh=f8841d8ee9e1e30af4577027987ca9bb&oe=5E58051E","like_count":0,"caption":"#aeromexico
+        \u0040superstyle.flimp los cabos"}'
+    http_version: 
+  recorded_at: Tue, 12 Nov 2019 14:41:14 GMT
+recorded_with: VCR 4.0.0

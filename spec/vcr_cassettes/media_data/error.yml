@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/18044467927200524?access_token=&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D&limit=50
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      X-App-Usage:
+      - '{"call_count":0,"total_cputime":0,"total_time":0}'
+      Www-Authenticate:
+      - OAuth "Facebook Platform" "unauthorized_client" "A user access token is required
+        to request this resource."
+      Content-Type:
+      - application/json; charset=UTF-8
+      Facebook-Api-Version:
+      - v2.11
+      Strict-Transport-Security:
+      - max-age=15552000; preload
+      Pragma:
+      - no-cache
+      X-Fb-Rev:
+      - '1001417202'
+      Access-Control-Allow-Origin:
+      - "*"
+      Cache-Control:
+      - no-store
+      X-Fb-Trace-Id:
+      - FEHwuKnPgrw
+      X-Fb-Request-Id:
+      - ADezfzPTCEH1kTheZGIoBdH
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Debug:
+      - FkJpGEDqmXxgF3kTxQG6rr0cxR7swqhuZ74OgwmZXtgjO1GIN1Y5turToTfOWrdny0miaQtITI1/proiEYr6vw==
+      Date:
+      - Tue, 12 Nov 2019 14:56:41 GMT
+      X-Fb-Trip-Id:
+      - '227077818'
+      Alt-Svc:
+      - h3-23=":443"; ma=3600
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '155'
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"A user access token is required to request this
+        resource.","type":"OAuthException","code":102,"fbtrace_id":"ADezfzPTCEH1kTheZGIoBdH"}}'
+    http_version: 
+  recorded_at: Tue, 12 Nov 2019 14:56:41 GMT
+recorded_with: VCR 4.0.0
