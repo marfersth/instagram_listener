@@ -6,11 +6,13 @@ module Mentions
       string :mention_data, default: nil
       string :access_token
       string :text
+      string :owner_username
 
       def execute
         raw_data = creates_raw_data
         Mention.create!(raw_data: raw_data.to_json, field_type: field_type,
-                        activity_subscription: activity_subscription, text: text)
+                        activity_subscription: activity_subscription, text: text,
+                        owner_username: owner_username)
       end
 
       def creates_raw_data

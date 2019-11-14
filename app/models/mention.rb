@@ -5,6 +5,7 @@ class Mention
   field :raw_data, type: String
   field :field_type, type: String
   field :text, type: String
+  field :owner_username, type: String
 
   belongs_to :activity_subscription
 
@@ -21,6 +22,7 @@ class Mention
       field :raw_data
       field :text
       field :field_type
+      field :owner_username
       field :activity_subscription
     end
   end
