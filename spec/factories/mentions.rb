@@ -4,5 +4,6 @@ FactoryBot.define do
     field_type { 'mentions' }
     activity_subscription { create :activity_subscription }
     text { 'some text' }
+    owner_username { 'instagram_username' }
   end
 end

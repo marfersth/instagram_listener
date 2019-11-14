@@ -9,6 +9,7 @@ class SendMention
     response = Subscriptions::Operations::SendCommentAndMention.run!(
       raw_data: mention.raw_data,
       campaign_id: activity_subscription.campaign_id,
+      owner_username: mention.owner_username,
       endpoint: subscription.hook_url
     )
     return if response.success?

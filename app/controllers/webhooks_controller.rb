@@ -19,7 +19,10 @@ class WebhooksController < ApplicationController
       text = Webhooks::Operations::MentionedText.run!(comment_id: comment_id, media_id: media_id,
                                                       instagram_business_account_id: @instagram_business_account_id,
                                                       access_token: @access_token)
-      handle_mentions(text)
+      owner_username = InstagramGraph::Queries::MediaCommentOwner.run!(comment_id: comment_id,
+                                                                       media_id: media_id,
+                                                                       access_token: @access_token)
+      handle_mentions(text, owner_username)
     end
     head :ok
   end
@@ -36,7 +39,7 @@ class WebhooksController < ApplicationController
     @access_token = @activity_subscriptions.last.access_token
   end
 
-  def handle_mentions(text)
+  def handle_mentions(text, owner_username)
     subscriptions = Subscription.where(event: 'comments_and_mentions')
     @activity_subscriptions.each do |activity_subscription|
       matchs = text_matching?(activity_subscription, text)
@@ -45,7 +48,7 @@ class WebhooksController < ApplicationController
       mention_data = params.reject! { |p| %w[controller action].include? p }
       mention = Mentions::Operations::Create.run!(access_token: @access_token, mention_data: mention_data.to_json,
                                                   activity_subscription: activity_subscription, field_type: @event_name,
-                                                  text: text)
+                                                  text: text, owner_username: owner_username)
       SendMention.execute(activity_subscription, subscriptions, mention)
     end
   end

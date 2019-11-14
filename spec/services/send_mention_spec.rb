@@ -11,6 +11,7 @@ describe SendMention do
     expect(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
       .with(raw_data: mention.raw_data,
             campaign_id: activity_subscription.campaign_id,
+            owner_username: mention.owner_username,
             endpoint: subscription.hook_url)
       .and_return(OpenStruct.new(success?: true))
     expect { SendMention.execute(activity_subscription, Subscription.all, mention) }
