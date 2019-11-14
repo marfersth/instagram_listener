@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://graph.facebook.com/18044467927200524?access_token=&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D&limit=50
+    uri: https://graph.facebook.com/18044467927200524?access_token=&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D
     body:
       encoding: US-ASCII
       string: ''

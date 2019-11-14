@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://graph.facebook.com/v3.2/17841593698074073/recent_media?access_token=EAAUiZCczYw5wBAGuok0kUz9IHlLZAxGonmNQzBPtzwtgft9LfJ7fGIYXOZBEBrLZAZBAyZBerjSqAZAAVwZAm64OpU9bJMm8PXnsfzWutGDmZAdhSGMMixCsFdZAnZAcKM1Yot7ZAVq0pZBZCW0wCYIfwAar1uWHP1ZAwUDAhbTcPeRhJpVRu5gvpL3YLZAs&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D&limit=50&user_id=17841412154572203
+    uri: https://graph.facebook.com/v4.0/17841593698074073/recent_media?access_token=EAAUiZCczYw5wBAGuok0kUz9IHlLZAxGonmNQzBPtzwtgft9LfJ7fGIYXOZBEBrLZAZBAyZBerjSqAZAAVwZAm64OpU9bJMm8PXnsfzWutGDmZAdhSGMMixCsFdZAnZAcKM1Yot7ZAVq0pZBZCW0wCYIfwAar1uWHP1ZAwUDAhbTcPeRhJpVRu5gvpL3YLZAs&fields=id,media_type,comments_count,permalink,media_url,like_count,caption,children%7Bid,media_type,media_url,permalink%7D&limit=&user_id=17841412154572203
     body:
       encoding: US-ASCII
       string: ''
