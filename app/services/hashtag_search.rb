@@ -1,6 +1,6 @@
 class HashtagSearch
-  INSTAGRAM_ENDPOINT = 'https://graph.facebook.com/v3.2'.freeze
-  LIMIT_PAGE = 50
+  INSTAGRAM_ENDPOINT = 'https://graph.facebook.com/v4.0'.freeze
+  LIMIT_PAGE = ENV['LIMIT_PAGE']
   FIELDS = %w[id
               media_type
               comments_count

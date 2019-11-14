@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://graph.facebook.com/v3.2/ig_hashtag_search?access_token=EAAUiZCczYw5wBAGuok0kUz9IHlLZAxGonmNQzBPtzwtgft9LfJ7fGIYXOZBEBrLZAZBAyZBerjSqAZAAVwZAm64OpU9bJMm8PXnsfzWutGDmZAdhSGMMixCsFdZAnZAcKM1Yot7ZAVq0pZBZCW0wCYIfwAar1uWHP1ZAwUDAhbTcPeRhJpVRu5gvpL3YLZAs&q=coke&user_id=17841412154572203
+    uri: https://graph.facebook.com/v4.0/ig_hashtag_search?access_token=EAAUiZCczYw5wBAGuok0kUz9IHlLZAxGonmNQzBPtzwtgft9LfJ7fGIYXOZBEBrLZAZBAyZBerjSqAZAAVwZAm64OpU9bJMm8PXnsfzWutGDmZAdhSGMMixCsFdZAnZAcKM1Yot7ZAVq0pZBZCW0wCYIfwAar1uWHP1ZAwUDAhbTcPeRhJpVRu5gvpL3YLZAs&q=coke&user_id=17841412154572203
     body:
       encoding: US-ASCII
       string: ''

@@ -3,7 +3,6 @@ module InstagramGraph
     class IgMedia < ActiveInteraction::Base
       string :media_id
       string :access_token
-      LIMIT_PAGE = 50
       FIELDS = %w[id
                   media_type
                   comments_count
@@ -26,8 +25,7 @@ module InstagramGraph
       end
 
       def request_url
-        @request_url ||= "https://graph.facebook.com/#{media_id}?fields=#{FIELDS}&access_token=#{access_token}"\
-"&limit=#{LIMIT_PAGE}"
+        @request_url ||= "https://graph.facebook.com/#{media_id}?fields=#{FIELDS}&access_token=#{access_token}"
       end
 
       def parse_response
