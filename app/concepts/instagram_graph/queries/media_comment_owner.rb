@@ -18,8 +18,12 @@ module InstagramGraph
       end
 
       def http_request
-        @http_request ||= HTTParty.get("https://graph.facebook.com/#{post_id}?fields=username"\
-"&access_token=#{access_token}")
+        @http_request ||= HTTParty.get(url)
+      end
+
+      def url
+        @url ||= "https://graph.facebook.com/#{post_id}?fields=username"\
+"&access_token=#{access_token}"
       end
 
       def parse_username
@@ -27,7 +31,7 @@ module InstagramGraph
       end
 
       def http_exception
-        ThirdPartyApiError.new(JSON.parse(http_request.body)['error']['message'], http_request.status)
+        ThirdPartyApiError.new({ url: url, message: http_request.body }, http_request.code)
       end
     end
   end
