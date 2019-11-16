@@ -4,7 +4,7 @@ module Mentions
       string :field_type
       object :activity_subscription, class: ActivitySubscription
       string :mention_data, default: nil
-      string :access_token
+      string :media
       string :text
       string :owner_username
 
@@ -21,15 +21,15 @@ module Mentions
       end
 
       def media_data
-        media = InstagramGraph::Queries::IgMedia.run!(media_id: media_id, access_token: access_token)
+        json_media = JSON.parse(media, symbolize_names: true)
         {
-          id: media['id'],
-          caption: media['caption'],
-          media_type: media['media_type'],
-          media_url: media['media_url'],
-          children: media['children'],
-          permalink: media['permalink'],
-          comments_count: media['comments_count']
+          id: json_media[:id],
+          caption: json_media[:caption],
+          media_type: json_media[:media_type],
+          media_url: json_media[:media_url],
+          children: json_media[:children],
+          permalink: json_media[:permalink],
+          comments_count: json_media[:comments_count]
         }
       end
 
