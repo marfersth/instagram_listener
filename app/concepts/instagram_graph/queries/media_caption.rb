@@ -8,15 +8,14 @@ module InstagramGraph
       string :access_token
 
       def execute
-        # rubocop:disable Metrics/LineLength
-        response = Faraday.get("https://graph.facebook.com/#{instagram_business_account_id}?fields=mentioned_media.media_id(#{media_id}){caption}&access_token=#{access_token}")
-        # rubocop:enable Metrics/LineLength
+        response = Faraday.get("https://graph.facebook.com/#{instagram_business_account_id}?"\
+"fields=mentioned_media.media_id(#{media_id}){caption,username}&access_token=#{access_token}")
         unless response.status == 200
           raise ThirdPartyApiError.new(JSON.parse(response.body)['error']['message'], response.status)
         end
 
         response = JSON.parse(response.body)
-        response['mentioned_media']['caption']
+        { text: response['mentioned_media']['caption'], username: response['mentioned_media']['username'] }
       end
     end
   end

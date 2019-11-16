@@ -3,12 +3,11 @@ require 'rails_helper'
 RSpec.describe WebhooksController, type: :controller do
   let(:activity_subscription) { create :activity_subscription, words: ['texto'], hashtags: ['prueba'] }
   let(:activity_subscription_2) { create :activity_subscription, words: ['de'], hashtags: ['prueba'] }
-  let(:text) { 'Texto de #prueba' }
+  let(:text_and_owner) { { text: 'Texto de #prueba', username: '@text_owner' } }
   let(:subscription) { create :subscription }
   let(:instagram_business_account_id) { '123' }
   let(:media_id) { '18062598958141247' }
   let(:comment_id) { '17876685787436635' }
-  let(:owner_username) { 'ig_username' }
   let(:body_media) {
     { object: 'instagram',
       entry: [
@@ -52,19 +51,15 @@ RSpec.describe WebhooksController, type: :controller do
   }
 
   def mock_media_caption
-    allow(InstagramGraph::Queries::MediaCaption).to receive(:run!).and_return(text)
+    allow(InstagramGraph::Queries::MediaCaption).to receive(:run!).and_return(text_and_owner)
   end
 
   def mock_comment_caption
-    allow(InstagramGraph::Queries::CommentText).to receive(:run!).and_return(text)
+    allow(InstagramGraph::Queries::CommentText).to receive(:run!).and_return(text_and_owner)
   end
 
   def mock_send_comments_and_mentions
     allow(Subscriptions::Operations::SendCommentAndMention).to receive(:run!).and_return(OpenStruct.new(success?: true))
-  end
-
-  def mock_comment_owner
-    allow(InstagramGraph::Queries::MediaCommentOwner).to receive(:run!).and_return(owner_username)
   end
 
   def mock_instagram_media
@@ -83,13 +78,12 @@ RSpec.describe WebhooksController, type: :controller do
     stub_create_webhook_subscription
     mock_instagram_media
     activity_subscription
-    mock_comment_owner
   end
 
   it 'asks for caption when the event is a media mention' do
     expect(InstagramGraph::Queries::MediaCaption).to receive(:run!)
       .with(instagram_business_account_id: instagram_business_account_id, media_id: media_id,
-            access_token: activity_subscription.access_token).and_return(text)
+            access_token: activity_subscription.access_token).and_return(text_and_owner)
 
     post :event, params: body_media
     expect(response).to be_success
@@ -98,7 +92,7 @@ RSpec.describe WebhooksController, type: :controller do
   it 'asks for text when the event is a comment mention' do
     expect(InstagramGraph::Queries::CommentText).to receive(:run!)
       .with(instagram_business_account_id: instagram_business_account_id, comment_id: comment_id,
-            access_token: activity_subscription.access_token).and_return(text)
+            access_token: activity_subscription.access_token).and_return(text_and_owner)
 
     post :event, params: body_comment
 
@@ -113,7 +107,7 @@ RSpec.describe WebhooksController, type: :controller do
 
     it 'send mention to subscribed app' do
       expect(Subscriptions::Operations::SendCommentAndMention).to receive(:run!)
-        .with(campaign_id: activity_subscription.campaign_id, owner_username: owner_username,
+        .with(campaign_id: activity_subscription.campaign_id, owner_username: text_and_owner[:username],
               endpoint: subscription.hook_url, raw_data: anything).and_return(OpenStruct.new(success?: true))
       post :event, params: body_media
     end
@@ -151,16 +145,6 @@ RSpec.describe WebhooksController, type: :controller do
       expect(Webhooks::Operations::MatchText).to receive(:run!).with(text_to_match: 'Texto de #prueba',
                                                                      words: ['texto'], hashtags: ['prueba'])
       post :event, params: body_media
-    end
-
-    it 'send correct params to get instagram username' do
-      mock_send_comments_and_mentions
-      mock_comment_caption
-      expect(InstagramGraph::Queries::MediaCommentOwner).to receive(:run!)
-        .with(comment_id: comment_id,
-              media_id: media_id,
-              access_token: activity_subscription.access_token)
-      post :event, params: body_comment
     end
   end
 end
