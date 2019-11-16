@@ -16,11 +16,11 @@ class WebhooksController < ApplicationController
     when 'mentions'
       comment_id = @value.try(:[], 'comment_id')
       media_id = @value.try(:[], 'media_id')
-      text_and_username = Webhooks::Operations::MentionedText
-                          .run!(comment_id: comment_id, media_id: media_id,
-                                instagram_business_account_id: @instagram_business_account_id,
-                                access_token: @access_token)
-      handle_mentions(text_and_username[:text], text_and_username[:username])
+      media_comment_data = Webhooks::Operations::MentionedText
+                           .run!(comment_id: comment_id, media_id: media_id,
+                                 instagram_business_account_id: @instagram_business_account_id,
+                                 access_token: @access_token)
+      handle_mentions(media_comment_data[:text], media_comment_data[:username], media_comment_data[:media])
     end
     head :ok
   end
@@ -37,14 +37,14 @@ class WebhooksController < ApplicationController
     @access_token = @activity_subscriptions.last.access_token
   end
 
-  def handle_mentions(text, owner_username)
+  def handle_mentions(text, owner_username, media)
     subscriptions = Subscription.where(event: 'comments_and_mentions')
     @activity_subscriptions.each do |activity_subscription|
       matchs = text_matching?(activity_subscription, text)
       next unless matchs
 
       mention_data = params.reject! { |p| %w[controller action].include? p }
-      mention = Mentions::Operations::Create.run!(access_token: @access_token, mention_data: mention_data.to_json,
+      mention = Mentions::Operations::Create.run!(media: media.to_json, mention_data: mention_data.to_json,
                                                   activity_subscription: activity_subscription, field_type: @event_name,
                                                   text: text, owner_username: owner_username)
       SendMention.execute(activity_subscription, subscriptions, mention)
