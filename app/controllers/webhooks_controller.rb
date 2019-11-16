@@ -16,13 +16,11 @@ class WebhooksController < ApplicationController
     when 'mentions'
       comment_id = @value.try(:[], 'comment_id')
       media_id = @value.try(:[], 'media_id')
-      text = Webhooks::Operations::MentionedText.run!(comment_id: comment_id, media_id: media_id,
-                                                      instagram_business_account_id: @instagram_business_account_id,
-                                                      access_token: @access_token)
-      owner_username = InstagramGraph::Queries::MediaCommentOwner.run!(comment_id: comment_id,
-                                                                       media_id: media_id,
-                                                                       access_token: @access_token)
-      handle_mentions(text, owner_username)
+      text_and_username = Webhooks::Operations::MentionedText
+                          .run!(comment_id: comment_id, media_id: media_id,
+                                instagram_business_account_id: @instagram_business_account_id,
+                                access_token: @access_token)
+      handle_mentions(text_and_username[:text], text_and_username[:username])
     end
     head :ok
   end
