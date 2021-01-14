@@ -17,7 +17,7 @@ gem 'jbuilder', '~> 2.9.1'
 gem 'kaminari-mongoid', '~> 1.0.1'
 gem 'mongo', '2.8.0'
 gem 'mongoid', '~> 7.0.2'
-gem 'rails_admin', '~> 1.4.2'
+gem 'rails_admin', '~> 1.4.3'
 gem 'sentry-raven', '~> 2.11.0'
 gem 'sidekiq-scheduler', '~> 3.0.0'
 
