@@ -23,7 +23,7 @@ gem 'sidekiq-scheduler', '~> 3.0.0'
 
 gem 'flimper_poncho', '~> 0.1.4'
 gem 'health_check', '~> 3.0'
-gem 'sidekiq', '~> 5.2.5'
+gem 'sidekiq', '~> 6.4.0'
 gem 'sidekiq-cron', '~> 1.1.0'
 gem 'sidekiq-failures', '~> 1.0.0'
 gem 'sidekiq-unique-jobs', '~> 6.0.13'
