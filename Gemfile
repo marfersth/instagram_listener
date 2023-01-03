@@ -27,7 +27,7 @@ gem 'sidekiq', '~> 5.2.5'
 gem 'sidekiq-cron', '~> 1.1.0'
 gem 'sidekiq-failures', '~> 1.0.0'
 gem 'sidekiq-unique-jobs', '~> 6.0.13'
-gem 'httparty', '~> 0.17.1'
+gem 'httparty', '~> 0.21.0'
 
 group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
